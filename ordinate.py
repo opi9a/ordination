@@ -1,17 +1,19 @@
 import sys
 
-def ordinate(num):
-    '''Converts an input integer to a string representation of the corresponding
-    ordinal indicator.
+def ordinate(num, include_digit=True):
+    '''Converts an input integer to a string representation
+    of the corresponding ordinal indicator.  Eg
 
-    Eg
-        1   : '1st'
-        2   : '2nd'
-        11  : '11th'
-        12  : '12th'
-        21  : '21st'
-        22  : '22nd'
-        100 : '100th'
+        1   -->   '1st'
+        2   -->   '2nd'
+        11  -->  '11th'
+        12  -->  '12th'
+        21  -->  '21st'
+        22  -->  '22nd'
+        100 --> '100th'
+
+    Optionally drop the digit by passing include_digit=False
+    to return 'st', 'nd' etc
     '''
 
     if not isinstance(num, int):
@@ -20,25 +22,41 @@ def ordinate(num):
 
     last_digit = num % 10
 
+    prefix = num if include_digit else ""
+
     if last_digit == 1:
         if num % 100 != 11:
-            return str(num) + 'st'
+            return prefix + 'st'
 
     if last_digit == 2:
         if num % 100 != 12:
-            return str(num) + 'nd'
+            return prefix + 'nd'
 
     if last_digit == 3:
         if num % 100 != 13:
-            return str(num) + 'rd'
+            return prefix + 'rd'
 
-    return str(num) + 'th'
+    return prefix + 'th'
 
 
-if __name__=="__main__":
+def main_function():
 
-    if len(sys.argv) != 2:
-        print("Only one integer input please\n")
+    try:
+        num = int(sys.argv[1])
+    except:
+        print("Need an integer\n")
+        return
 
-    else:
-        print(ordinate(int(sys.argv[1])))
+    include_digit = True
+
+    if len(sys.argv) == 3:
+        if sys.argv[2] in ['-n', '--no-digit']:
+            include_digit = False
+        else:
+            print("Don't recognise ", sys.argv[2])
+            print("Only valid flag is -n or --no-digit")
+            return
+
+    print(ordinate(num, include_digit))
+
+if __name__=="__main__": main_function()
