@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+#!/bin/bash
+
 import sys
 
 def ordinate(num, include_digit=True):
@@ -22,7 +25,7 @@ def ordinate(num, include_digit=True):
 
     last_digit = num % 10
 
-    prefix = num if include_digit else ""
+    prefix = str(num) if include_digit else ""
 
     if last_digit == 1:
         if num % 100 != 11:
@@ -37,6 +40,7 @@ def ordinate(num, include_digit=True):
             return prefix + 'rd'
 
     return prefix + 'th'
+
 
 
 def main_function():
